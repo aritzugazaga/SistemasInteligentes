@@ -15,6 +15,8 @@ library(grid)
 library(ggplot2)
 library(lattice)
 
+source("../problem/assembler-robot.R")
+
 # Include algorithm functions
 source("../algorithms/blind/expand-node.R")
 source("../algorithms/blind/breadth-first-search.R")
@@ -29,7 +31,7 @@ source("../algorithms/results-analysis/analyze-results.R")
 source("../algorithms/results-analysis/plot-results.R")
 
 # ADD YOUR CODE HERE TO INITIALIZE YOUR PROBLEM AND INCLUDE THE DEFINITION FILE
-problem <- initialize.problem() 
+problem <- initialize.problem("../data/assembler-robot-txt/assembler-robot-1.txt") 
 
 bfs_ts <- breadth.first.search(problem)   
 bfs_gs <- breadth.first.search(problem, graph_search = T)

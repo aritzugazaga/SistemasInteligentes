@@ -8,8 +8,17 @@ initialize.problem <- function(file) {
   
   problem$name <- paste0("assembler-robot- [", file, "]")
   
-  N <- read_lines(file, skip = 0, n_max = 1)
-  M <- 
+  N <- readLines(file, n=4)
+  M <- strsplit(N, ";")
+  print(M)
+  cords <- strsplit(M[[1]],",")
+  cordsN <- as.numeric(cords[[1]])
+  grid <- matrix(0, nrow=cordsN[[1]],ncol=cordsN[[2]], byrow=TRUE)
+  cordsR <- strsplit(M[[2]],",")
+  cordsRN <- as.numeric(cordsR[[1]])
+  grid[cordsRN[[1]],cordsRN[[2]]] <- -1
+  print(M)
+  print(grid)
   # problem$state_initial     <- read.csv(file, header = FALSE)
   # problem$state_final       <- <INSERT CODE HERE>
   # problem$actions_possible  <- <INSERT CODE HERE>
