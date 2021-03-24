@@ -3,10 +3,10 @@
 # Students: Erik B. Terres, Aritz Zugazaga
 # =======================================================================
 
-initialize.problem <- function(file) {
+initialize.problem() <- function(filename = "../data/assembler-robot-1.txt") {
   problem <- list()
   
-  problem$name <- paste0("assembler-robot- [", file, "]")
+  problem$name <- paste0("assembler-robot-[", filename, "]")
   
   N <- readLines(file, n=4)
   M <- strsplit(N, ";")
@@ -19,23 +19,40 @@ initialize.problem <- function(file) {
   grid[cordsRN[[1]],cordsRN[[2]]] <- -1
   print(M)
   print(grid)
-  # problem$state_initial     <- read.csv(file, header = FALSE)
+  # problem$state_initial     <- <INSERT CODE HERE>
   # problem$state_final       <- <INSERT CODE HERE>
   # problem$actions_possible  <- <INSERT CODE HERE>
   
   # You can add additional attributes
-  # problem$<aditional_attribute>  <- <INSERT CODE HERE>
+  problem$rows              <- rows
+  problem$columns           <- columns
   
   return(problem)
 }
 
 # Analyzes if an action can be applied in the received state.
 is.applicable <- function (state, action, problem) {
-  result <- FALSE # Default value is FALSE.
+  where <- which(state == 0, arr.ind = TRUE)
+  row <- where[1]
+  col <- where[2]
   
-  # <INSERT CODE HERE TO CHECK THE APPLICABILITY OF EACH ACTION>
+  if (action == "Up") {
+    return(row != 1)
+  }
   
-  return(result)
+  if (action == "Down") {
+    return(row != problem$rows)
+  }
+  
+  if (action == "Left") {
+    return(col != 1)
+  }
+  
+  if (action == "Right") {
+    return(col != problem$columns)
+  }
+  
+  return(FALSE)
 }
 
 # Returns the state resulting on applying the action over the state
