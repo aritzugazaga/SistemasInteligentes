@@ -1,7 +1,11 @@
 random.restart.hill.climbing = function(problem, 
+                                        iterations,
                                         max_iterations = 1000,
                                         count_print = 100, 
                                         trace = FALSE) {
+  
+  limit <- 0
+  iteraciones <- 0
   
   name_method      <- paste0("Random Restart Hill Climbing")
   state_initial    <- problem$state_initial
@@ -10,99 +14,62 @@ random.restart.hill.climbing = function(problem,
   # Get Start time
   start_time       <- Sys.time()
   
-  node_current <- list(parent = c(),
-                       state = state_initial,
-                       actions = c(),
-                       depth = 1,
-                       cost = get.cost(state = state_initial, problem = problem),
-                       evaluation = get.evaluation(state_initial, problem))
-  
   count <- 1
   end_reason <- 0
   
-  best_result <- list(parent = c(),
-                      state = state_initial,
-                      action = c(),
-                      depth = 1,
-                      cost = get.cost)
+  mejor_resultado <- list(parent = c(),
+                          state = state_initial,
+                          actions = c(),
+                          depth = 1,
+                          cost = get.cost(state = state_initial, problem = problem),
+                          evaluation = get.evaluation(state_initial, problem))
   
-  #Initialization of information for further analysis
   report <- data.frame(iteration = numeric(),
                        nodes_frontier = numeric(),
                        depth_of_expanded = numeric(),
                        nodes_added_frontier = numeric())
   
-  #Perform "max_iterations" iterations of the expansion process of the first node in the frontier list
-  while (count <= iterations) {
-    # Print a search trace for each "count_print" iteration
-    if (count %% count_print == 0) {
-      print(paste0("Iteration: ", count, ", Current node=", node_current$cost, " / needed=", problem$needed_slices), quote = FALSE)
-    }
+  #Ejecuciones = iteraciones pasadas por parametro
+  while (limit <= iterations) {
     
-    #If "trace" is on, the information of current node is displayed
-    if (trace) {
-      print(paste0("Current node=", node_current$cost, " / needed=", problem$needed_slices), quote = FALSE)
-      to.string(state = node_current$state, problem = problem)
-    }
-    
-    # Current node is expanded
-    sucessor_nodes <- local.expand.node(node_current, actions_possible, problem)
-    # Successor nodes are sorted ascending order of the evaluation function
-    sucessor_nodes <- sucessor_nodes[order(sapply(sucessor_nodes,function (x) x$evaluation))]
-    
-    # Select best successor
-    node_best_successor <- sucessor_nodes[[1]]
-    
-    # The best successor is better than current node
-    if (node_best_successor$evaluation <= node_current$evaluation) {
-      # Current node is updated
-      node_current <- node_best_successor
-      
-      #If "trace" is on, the information of the new current node is displayed
-      if (trace){
-        print(paste0("New current node=", node_current$cost, " / needed=", problem$needed_slices), quote = FALSE)
-        to.string(state = node_current$state, problem = problem)
-      }
-      # Local best found
-    } else {
-      # Algorithm stops because a local best has been found
-      end_reason <- "Local_Best"
-      
-      #Add of information for further analysis
-      report <- rbind(report, data.frame(iteration = count,
-                                         nodes_frontier = 1,
-                                         depth_of_expanded = node_current$depth,
-                                         nodes_added_frontier = 1))
-      
-      break
-    }
-    
-    #Add of information for further analysis
-    report <- rbind(report, data.frame(iteration = count,
+    report <- rbind(report, data.frame(iteration = iteraciones,
                                        nodes_frontier = 1,
-                                       depth_of_expanded = node_current$depth,
+                                       depth_of_expanded = mejor_resultado$depth,
                                        nodes_added_frontier = 1))
-    count <- count + 1
+    
+    problem <- initialize.problem(filename = filename)
+    
+    #Funcion Hill Climbing Search
+    resultado <- hill.climbing.search(problem,
+                                      max_iterations = max_iterations,
+                                      count_print = count_print, 
+                                      trace = trace)
+    
+    #Si el resultado es el mejor se actualiza
+    if(resultado$state_final$evaluation <= mejor_resultado$evaluation){
+      mejor_resultado <- resultado$state_final
+    }
+    
+    #Si mejor_resultado es el estado final hacemos break
+    if((is.final.state(state = mejor_resultado$state, final_state = resultado$state_final, problem = problem))){
+      break 
+    }
+    else{
+      limit <- limit + 1
+    }
+    
+    
   }
   
-  # Get runtime
+  
   end_time <- Sys.time()
   
   result <- list()
-  result$name    <- name_method
-  result$runtime <- end_time - start_time
-  
-  # Print final result
-  if (end_reason == "Local_Best") {
-    print("Local best found!!", quote = FALSE)
-  } else {
-    print("Maximum iterations reached", quote = FALSE)
-  }
-  
-  to.string(state = node_current$state, problem = problem)
-  
-  result$state_final <- best_result
+  result$name        <- paste0("Random Restart Hill Climbing: ")
+  result$runtime     <- end_time - start_time
+  result$state_final <- mejor_resultado
   result$report      <- report
+  
   
   return(result)
 }
