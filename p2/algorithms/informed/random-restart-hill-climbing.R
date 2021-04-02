@@ -1,73 +1,70 @@
 random.restart.hill.climbing = function(problem, 
-                                        iterations,
-                                        max_iterations = 1000,
+                                        iterations, 
+                                        max_iterations = 1000, 
                                         count_print = 100, 
-                                        trace = FALSE) {
-  
-  limit <- 0
-  iteraciones <- 0
-  
-  name_method      <- paste0("Random Restart Hill Climbing")
-  state_initial    <- problem$state_initial
-  actions_possible <- problem$actions_possible
-  
+                                        trace = FALSE, filename) {
   # Get Start time
   start_time       <- Sys.time()
   
-  count <- 1
-  end_reason <- 0
+  state_initial    <- problem$state_initial 
+  actions_possible <- problem$actions_possible
   
-  mejor_resultado <- list(parent = c(),
+  #  Lista donde se almacena el mejor resultado temporal
+  best_temp_result <- list(parent = c(),
                           state = state_initial,
                           actions = c(),
                           depth = 1,
                           cost = get.cost(state = state_initial, problem = problem),
                           evaluation = get.evaluation(state_initial, problem))
   
+  # Initialization of information for further analysis
   report <- data.frame(iteration = numeric(),
                        nodes_frontier = numeric(),
                        depth_of_expanded = numeric(),
                        nodes_added_frontier = numeric())
+  limite <- 0
+  iteraciones <- 0
   
-  #Ejecuciones = iteraciones pasadas por parametro
-  while (limit <= iterations) {
+  while (limite <= iterations) {
     
     report <- rbind(report, data.frame(iteration = iteraciones,
                                        nodes_frontier = 1,
-                                       depth_of_expanded = mejor_resultado$depth,
+                                       depth_of_expanded = best_temp_result$depth,
                                        nodes_added_frontier = 1))
     
-    problem <- initialize.problem(filename = filename)
+    problem <- initialize.problem(filename) 
     
-    #Funcion Hill Climbing Search
-    resultado <- hill.climbing.search(problem,
+    # Ejecutar Hill Climbing Search
+    result_temp <- hill.climbing.search(problem,
                                       max_iterations = max_iterations,
                                       count_print = count_print, 
-                                      trace = trace)
+                                      trace = trace 
+    )
     
-    #Si el resultado es el mejor se actualiza
-    if(resultado$state_final$evaluation <= mejor_resultado$evaluation){
-      mejor_resultado <- resultado$state_final
+    # Si la evaluación del resultado temporal es superior a la almacenada como mejor temporal, esta misma se actualizara
+    if(result_temp$state_final$evaluation <= best_temp_result$evaluation){
+      best_temp_result <- result_temp$state_final
     }
     
-    #Si mejor_resultado es el estado final hacemos break
-    if((is.final.state(state = mejor_resultado$state, final_state = resultado$state_final, problem = problem))){
-      break 
+    #Comprobar si el best_temp_result es estado final
+    if((is.final.state(best_temp_result$state, best_temp_result$state_final, problem))){
+      break
     }
     else{
-      limit <- limit + 1
+      limite <- limite + 1
     }
-    
     
   }
   
   
+  
+  # Get runtime
   end_time <- Sys.time()
   
   result <- list()
-  result$name        <- paste0("Random Restart Hill Climbing: ")
+  result$name        <- paste0("Random Restart Hill Climbing:")
   result$runtime     <- end_time - start_time
-  result$state_final <- mejor_resultado
+  result$state_final <- best_temp_result
   result$report      <- report
   
   

@@ -50,7 +50,7 @@ effect <- function (state, action, problem) {
 }
 
 # Analyzes if a state is final or not
-is.final.state <- function (state, final_satate, problem) {
+is.final.state <- function (state, final_state, problem) {
   return(TRUE)
 }
 
