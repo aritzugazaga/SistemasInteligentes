@@ -53,11 +53,11 @@ local.analyze.results(list(hill_climbing_1, hill_climbing_2, hill_climbing_3, hi
 
 # ------------------------------------------- RANDOM RESTART HILL CLIMBING ---------------------------------------------------------------------------
 
-# Executes hill climbing search and return the results
+# Executes random restart hill climbing search and return the results
 execute.random.restart.hill.climbing <- function(filename) {
   problem <- initialize.problem(filename)
-  # Execute hill climbing
-  return(random.restart.hill.climbing(problem, iterations = 100,max_iterations = 1000, count_print = 50,filename = filename))
+  # Execute random restart hill climbing
+  return(random.restart.hill.climbing(problem, iterations = 7,max_iterations = 1000, count_print = 50,filename = filename))
 }
 
 # Clear console
@@ -83,3 +83,59 @@ problem <- initialize.problem(filename = file)
 # Analyze results
 local.analyze.results(list(random_restart_1,random_restart_2,random_restart_3,random_restart_4,random_restart_5,
                            random_restart_6,random_restart_7,random_restart_8,random_restart_9,random_restart_10),problem)
+
+# ------------------------------------------- RANDOM RESTART HILL CLIMBING ---------------------------------------------------------------------------
+
+# Executes local beam search and return the results (Beams = 3,5)
+execute.local.beam.search.b35 <- function(filename) {
+  problem <- initialize.problem(filename)
+  # Execute local beam search
+  return(local.beam.search(problem,max_iterations = 100, count_print = 50,beams = 3.5,filename = filename))
+}
+
+# Executes local beam search and return the results (Beams = 10)
+execute.local.beam.search.b10 <- function(filename) {
+  problem <- initialize.problem(filename)
+  # Execute local beam search
+  return(local.beam.search(problem,max_iterations = 100, count_print = 50,beams = 10,filename = filename))
+}
+
+# Clear console
+cat("\014")
+graphics.off()
+
+file <- "../data/knapsack-10.txt"
+
+local_beam_b35_1 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_2 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_3 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_4 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_5 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_6 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_7 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_8 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_9 <- execute.local.beam.search.b35(filename = file)
+local_beam_b35_10 <- execute.local.beam.search.b35(filename = file)
+
+local_beam_b10_1 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_2 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_3 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_4 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_5 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_6 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_7 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_8 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_9 <- execute.local.beam.search.b10(filename = file)
+local_beam_b10_10 <- execute.local.beam.search.b10(filename = file)
+
+
+# Initialize a problem instance for the analysis
+problem <- initialize.problem(filename = file)
+
+# Analyze results
+local.analyze.results(list(local_beam_b35_1,local_beam_b35_2,local_beam_b35_3,local_beam_b35_4,local_beam_b35_5,
+                           local_beam_b35_6,local_beam_b35_7,local_beam_b35_8,local_beam_b35_9,local_beam_b35_10),problem)
+
+local.analyze.results(list(local_beam_b10_1,local_beam_b10_2,local_beam_b10_3,local_beam_b10_4,local_beam_b10_5,
+                           local_beam_b10_6,local_beam_b10_7,local_beam_b10_8,local_beam_b10_9,local_beam_b10_10),problem)
+
