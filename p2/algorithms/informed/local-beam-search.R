@@ -14,6 +14,7 @@ local.beam.search = function(problem,
   
   node_current <- c()
   sucessor_nodes <- c()
+  node_best_successor <- c()
   
   limite <- 1
   
@@ -75,13 +76,10 @@ local.beam.search = function(problem,
         }
         # Local best found
       } else {
-        # Algorithm stops because a local best has been found
-        end_reason <- "Local_Best"
-        
         #Add of information for further analysis
         report <- rbind(report, data.frame(iteration = count,
                                            nodes_frontier = 1,
-                                           depth_of_expanded = node_current$depth,
+                                           depth_of_expanded = node_current[[1]]$depth,
                                            nodes_added_frontier = 1))
         
         break

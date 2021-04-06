@@ -86,11 +86,18 @@ local.analyze.results(list(random_restart_1,random_restart_2,random_restart_3,ra
 
 # ------------------------------------------- RANDOM RESTART HILL CLIMBING ---------------------------------------------------------------------------
 
-# Executes local beam search and return the results (Beams = 3,5)
-execute.local.beam.search.b35 <- function(filename) {
+# Executes local beam search and return the results (Beams = 3)
+execute.local.beam.search.b3 <- function(filename) {
   problem <- initialize.problem(filename)
   # Execute local beam search
-  return(local.beam.search(problem,max_iterations = 100, count_print = 50,beams = 3.5,filename = filename))
+  return(local.beam.search(problem,max_iterations = 100, count_print = 50,beams = 3,filename = filename))
+}
+
+# Executes local beam search and return the results (Beams = 5)
+execute.local.beam.search.b5 <- function(filename) {
+  problem <- initialize.problem(filename)
+  # Execute local beam search
+  return(local.beam.search(problem,max_iterations = 100, count_print = 50,beams = 5,filename = filename))
 }
 
 # Executes local beam search and return the results (Beams = 10)
@@ -106,16 +113,27 @@ graphics.off()
 
 file <- "../data/knapsack-10.txt"
 
-local_beam_b35_1 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_2 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_3 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_4 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_5 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_6 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_7 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_8 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_9 <- execute.local.beam.search.b35(filename = file)
-local_beam_b35_10 <- execute.local.beam.search.b35(filename = file)
+local_beam_b3_1 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_2 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_3 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_4 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_5 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_6 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_7 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_8 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_9 <- execute.local.beam.search.b3(filename = file)
+local_beam_b3_10 <- execute.local.beam.search.b3(filename = file)
+
+local_beam_b5_1 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_2 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_3 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_4 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_5 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_6 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_7 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_8 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_9 <- execute.local.beam.search.b5(filename = file)
+local_beam_b5_10 <- execute.local.beam.search.b5(filename = file)
 
 local_beam_b10_1 <- execute.local.beam.search.b10(filename = file)
 local_beam_b10_2 <- execute.local.beam.search.b10(filename = file)
@@ -133,8 +151,11 @@ local_beam_b10_10 <- execute.local.beam.search.b10(filename = file)
 problem <- initialize.problem(filename = file)
 
 # Analyze results
-local.analyze.results(list(local_beam_b35_1,local_beam_b35_2,local_beam_b35_3,local_beam_b35_4,local_beam_b35_5,
-                           local_beam_b35_6,local_beam_b35_7,local_beam_b35_8,local_beam_b35_9,local_beam_b35_10),problem)
+local.analyze.results(list(local_beam_b3_1,local_beam_b3_2,local_beam_b3_3,local_beam_b3_4,local_beam_b3_5,
+                           local_beam_b3_6,local_beam_b3_7,local_beam_b3_8,local_beam_b3_9,local_beam_b3_10),problem)
+
+local.analyze.results(list(local_beam_b5_1,local_beam_b5_2,local_beam_b5_3,local_beam_b5_4,local_beam_b5_5,
+                           local_beam_b5_6,local_beam_b5_7,local_beam_b5_8,local_beam_b5_9,local_beam_b5_10),problem)
 
 local.analyze.results(list(local_beam_b10_1,local_beam_b10_2,local_beam_b10_3,local_beam_b10_4,local_beam_b10_5,
                            local_beam_b10_6,local_beam_b10_7,local_beam_b10_8,local_beam_b10_9,local_beam_b10_10),problem)
