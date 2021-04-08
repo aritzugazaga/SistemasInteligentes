@@ -43,9 +43,9 @@ local.beam.search = function(problem,
                        nodes_added_frontier = numeric())
   
   count <- 1
-  limiteBeams <- 1
   
   while (count <= max_iterations) {
+    limiteBeams <- 1
     
     while(limiteBeams <= beams){
       if (count %% count_print == 0) {
